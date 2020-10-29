@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ title }}</title>
+  <style>
+    body { 
+        font-family: sans-serif, Arial;
+        font-size: 110%;
+        padding: 30px;
+    }
+
+    .items-table {
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        padding: 10px;
+    }
+
+    .items-table .row {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
+    .items-table .row:last-child {
+        border-bottom: none;
+    }
+
+    .items-table .row .status {
+        font-weight: bold;
+    }
+
+    .items-table .row .timestamp {
+        text-align: right;
+    }
+  </style>
+  <link rel="stylesheet" href="./css/simple-grid.min.css" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <h1>{{ title }}</h1> 
+
+            <div class="items-table">
+                {{ #items }}
+                    <div class="row">
+                        <div class="col-4 status">{{ status }}</div>
+                        <div class="col-4 message">{{ message }}</div>
+                        <div class="col-4 timestamp">{{ timestamp }}</div>
+                    </div>
+                {{ /items }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
