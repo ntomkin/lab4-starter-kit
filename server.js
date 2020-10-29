@@ -25,17 +25,18 @@ app.get('/dashboard', function(req, res) {
 
     const redis = new Redis();
 
+    let statuses = redis.get_statuses();
+
+    console.log(statuses);
+
     // create an object of data for our template
     let data = {
         title: "Dashboard",
         items: [
-            {status: "OK", message: "Functioning normally", timestamp: newTimestamp},
-            {status: "OK", message: "Functioning normally", timestamp: newTimestamp},
-            {status: "ERROR", message: "Malfunction. Need input.", timestamp: newTimestamp},
-            {status: "OK", message: "Functioning normally", timestamp: newTimestamp},
-            {status: "OK", message: "Functioning normally", timestamp: newTimestamp},
-            {status: "ERROR", message: "Malfunction. Need input.", timestamp: newTimestamp},
-            {status: "OK", message: "Functioning normally", timestamp: newTimestamp},
+            {status: "OK", message: "Don't stop, never give up", timestamp: newTimestamp},
+            {status: "OK", message: "Hold your head high and reach the top", timestamp: newTimestamp},
+            {status: "ERROR", message: "Let the world see what you have got", timestamp: newTimestamp},
+            {status: "OK", message: "Bring it all back to you", timestamp: newTimestamp},
         ]
     }
 
