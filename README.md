@@ -10,6 +10,11 @@ Is this your first time? Make sure you save .env.blank as .env, then ensure all 
 * Nodemon: `npm run dev`
 * Node: `node .`
 
+
+### Deployment
+
+* `npm run deploy`
+
 ### Notes
 
 * In package.json you'll notice that nodemon is running with the exec (-e) option. This is to include .mustache templates when monitoring for changes.

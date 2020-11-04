@@ -1,8 +1,32 @@
-const express = require('express');
-const moment = require('moment');
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const events = require('events');
+const Database = require('./lib/database.js');
 const Redis = require('./lib/redis.js');
 
-const app = express();
+//  Allows us to broadcast events in our application
+//  This is not the only way to do this - you can use
+//  socket.io, for example.
+const emitter = new events.EventEmitter();
+
+//  We pass the emitter to our redis class so we can
+//  use it to broadcast an event.
+const redis = new Redis(emitter);
+
+//  We're listening for new messages
+emitter.on('new-message', function(message) {
+    //  While this works - make sure you check the requirements for Lab 4.
+    //  Here, you will still need to insert the record into the SQLite database
+
+    console.log('New message!', 'Find me in ./server.js', message);
+
+    //  Use sockets to talk to the front-end/client/dashboard.mustache
+    io.emit('new-message', message);
+})
+
+//  Init database for later
+let database = new Database('./api.db');
 
 // include the mustache template engine for express
 const mustacheExpress = require('mustache-express');
@@ -17,30 +41,15 @@ app.set('view engine', 'mustache');
 // files should have the extension filename.mustache
 app.set('views', __dirname + '/views');
 
-app.get('/dashboard', function(req, res) {
+app.get('/dashboard', async function(req, res) {
 
-    let fakeTimestamp = (new Date());
-    fakeTimestamp.setDate(fakeTimestamp.getDate() - 5);
-    let newTimestamp = moment(fakeTimestamp).fromNow();
+    let messages = await database.get_messages();
 
-    const redis = new Redis();
-
-    let statuses = redis.get_statuses();
-
-    console.log(statuses);
-
-    // create an object of data for our template
     let data = {
         title: "Dashboard",
-        items: [
-            {status: "OK", message: "Don't stop, never give up", timestamp: newTimestamp},
-            {status: "OK", message: "Hold your head high and reach the top", timestamp: newTimestamp},
-            {status: "ERROR", message: "Let the world see what you have got", timestamp: newTimestamp},
-            {status: "OK", message: "Bring it all back to you", timestamp: newTimestamp},
-        ]
+        items: messages,
     }
 
-    // render the page mypage.mustache found under the /views folder
     res.render('dashboard', data);
 
 });
@@ -50,6 +59,6 @@ app.get(/^(.+)$/, function(req,res) {
     res.sendFile(__dirname + req.params[0]);
 });
 
-var server = app.listen(3000, function() {
+var server = http.listen(3000, function() {
   console.log("server listening...");
 });

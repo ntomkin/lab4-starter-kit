@@ -48,5 +48,13 @@
             </div>
         </div>
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        socket.on('new-message', function(message) {
+            //  Here, you will need to add the new message to the above table
+            console.log('New message!', 'Find me in ./views/dashboard.mustache', message);
+        });
+    </script>
 </body>
 </html>
