@@ -11,11 +11,12 @@ exports.handler = function(context, event, callback) {
     var incoming_message = event.Body.split(' ');
     var command = incoming_message[0].toLowerCase();
     var action = incoming_message[1];
-    var details = incoming_message[2]; // TODO: Must pop first two elements first, then join together as string
+    var details = incoming_message.splice(2).join(' ');
 
     switch(command) {
         case "update":
             let data = JSON.stringify({"message": action, "status": details, timestamp: (new Date()).getTime()});
+            console.log('data', data);
             let key = uniqid();
   
             redis_client.hset("messages", key, data, redis.print);
