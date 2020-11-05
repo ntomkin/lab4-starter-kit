@@ -8,6 +8,7 @@ For more information, read the Overview for Week 7, 8 and 9 in Canvas.
 Is this your first time? Make sure to: 
 * save ./.env.blank as ./.env, then ensure all environment variables have a value.
 * save ./twilio/.env.blank as ./twilio/.env.blank, then ensure all environment variables have a value.
+* run `npm run setup` to install dependancies for ./package.json and ./twilio/package.json
 
 To run: 
 * Nodemon: `npm run dev`

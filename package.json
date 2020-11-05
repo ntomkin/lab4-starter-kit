@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "setup": "npm install && cd twilio && npm install",
     "dev": "nodemon -e env,js,mustache ./server.js",
     "deploy": "cd ./twilio && twilio serverless:deploy"
   },
