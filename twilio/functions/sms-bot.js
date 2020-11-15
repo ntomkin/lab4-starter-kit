@@ -16,14 +16,14 @@ exports.handler = function(context, event, callback) {
     switch(command) {
         case "update":
             let data = JSON.stringify({"message": action, "status": details, timestamp: (new Date()).getTime()});
-            console.log('data', data);
+
             let key = uniqid();
   
-            redis_client.hset("messages", key, data, redis.print);
+            redis_client.hset("messages", key, data, (error, success) => {
+              twiml.message('Message inserted');
+              callback(null, twiml);  
+            });
             
-            twiml.message('Message inserted');
-  
-            callback(null, twiml);
             break;
   
         case "catfacts":
